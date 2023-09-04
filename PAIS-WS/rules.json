@@ -1,0 +1,19 @@
+{
+    "rules": [
+        {
+            "rule_name": "valid_cocktail_name",
+            "pattern": "^(BloodyMary|Mojito|PinaColada|Martini)$",
+            "action": "validate_cocktail_name"
+        },
+        {
+            "rule_name": "valid_cocktail_size",
+            "pattern": "^(small|medium|large)$",
+            "action": "validate_cocktail_size"
+        },
+        {
+            "rule_name": "valid_additional_info",
+            "pattern": "^(extraLime|lessSugar|noIce|fastOrder)$",
+            "action": "validate_additional_info"
+        }
+    ]
+}
