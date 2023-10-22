@@ -13,9 +13,21 @@ The correlator is running two services that interact with MongoDB and the CPEE E
 - requests
 
 ## Usage	
+ Clone the repository:
+
+```bash
+1.   git clone
+2. pip install -r requirements.txt
+3. Set up environment variables by creating a .env file in the project root and populating it with the required values. For example: 
+MONGODB_URI=your-mongodb-uri
+DISCORD_BOT_TOKEN=your-discord-bot-token
 
 Script 1: script1.py
 This script listens for incoming messages on a Discord channel, processes orders, and checks for matching rules. When a matching rule is found, it processes the order and sends a notification to a callback URL.
 
 Script 2: script2.py
-This script sets up a Flask web service that allows users to submit rules for processing. It checks for matching rules and processes orders in the background. When a matching rule is found, it sends a notification to a pending task from another instance using its callback url. 
+This script sets up a Flask web service that allows users to submit rules for processing. It checks for matching rules and processes orders in the background. When a matching rule is found, it sends a notification to a pending task from another instance using its callback url.
+
+
+
+
