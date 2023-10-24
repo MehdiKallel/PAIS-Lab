@@ -2,7 +2,7 @@
 
 ## Description
 
-The correlator is running two services that interact with MongoDB and the CPEE Engine. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming data but will check if stored rules can be applied beofrehand. In this case the callback URLs when specific conditions are met. The project uses the Flask web framework to create a web service that allows users to submit rules and receive notifications.
+The correlator is running two services that interact with MongoDB and the CPEE Engine. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs when specific conditions are met. The project uses the Flask web framework to create a web service that allows users to submit rules and receive notifications.
 
 ## Prerequisites
 
