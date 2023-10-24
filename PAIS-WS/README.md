@@ -41,3 +41,11 @@ Before running the correlator, it is required to set up a discord bot via the de
 2. Choose a server name, icon, and region.
 3. Customize your server by adding channels, roles, and permissions as needed.
 4. Invite your bot to the server using its OAuth2 URL generated in the Discord Developer Portal.
+
+
+
+
+
+
+![Alt text](./pictures/correlator.png?raw=true "Title")
+
