@@ -43,6 +43,51 @@ Before running the correlator, it is required to set up a discord bot via the de
 4. Invite your bot to the server using its OAuth2 URL generated in the Discord Developer Portal.
 
 
+### Introduction
+
+The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels.
+
+### 1. Rule Engine (Flask Application)
+
+The rule engine is a Flask-based web service that enables clients to submit a regex rule and a callback URL. When the provided rule matches any current orders, the corresponding orders are returned and deleted from orders queue. They are stored in a result queue with their corresponding rule
+#### Endpoints:
+
+- **POST /apply_rule**
+  - **Parameters**:
+    - `regex`: A regex pattern to be applied to the current orders.
+  - **Headers**:
+    - `CPEE-CALLBACK`: The callback URL to which notifications should be sent. This header is set to false in case we have an orders/rule match and to false if we have an asynchronous call and the rule needs to be stored in the rules queue. The rule may be applied in the future and the corresponding waiting task is informed using the CPEE Callback URL that the task was executed.
+  - **Responses**:
+    - `200 OK`: Successfully processed the rule -> Regex syntax is correct.
+    - `400 Bad Request`: Invalid regex provided.
+    - `CPEE-CALLBACK`: A response header indicating if a rule matches the current orders (`true` or `false`).
+
+#### Background Processing:
+
+When a rule is submitted via the `/apply_rule` endpoint, the application:
+
+1. If the provided rule matches current orders, the matching orders are removed from the queue and stored in the results queue.
+2. If no match is found, the rule is queued for future processing.
+
+### 2. Discord Fetcher
+
+This component listens for messages in a specific channel on Discord, named 'orders'. When a message is received in this channel:
+
+1. The message is logged and added to the queue with metadata such as author's ID, name, and tag.
+2. The application then checks for any matching rule from the stored rules queue.
+3. If a matching rule exists and applies to the received message:
+   - The corresponding orders are removed from the queue.
+   - The matched orders, along with the rule, are added to the results queue.
+   - A notification is sent to the provided callback URL with the regex of the matching rule.
+
+### Dependencies:
+
+- **Flask**: For creating the web application.
+- **MongoClient**: To interact with MongoDB where the rules and orders are stored.
+- **Discord**: For integrating with the Discord API.
+- **Flask-CORS**: To handle Cross-Origin Resource Sharing for the Flask application.
+- 
+
 
 
 
