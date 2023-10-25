@@ -2,7 +2,8 @@
 
 ## Description
 
-The correlator is running two services that interact with MongoDB and the CPEE Engine. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs when specific conditions are met. The project uses the Flask web framework to create a web service that allows users to submit rules and receive notifications.
+
+The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs when specific conditions are met.
 
 ## Prerequisites
 
@@ -17,6 +18,7 @@ The correlator is running two services that interact with MongoDB and the CPEE E
 1. git clone https://github.com/MehdiKallel/PAIS-Lab.git
 2. pip install -r requirements.txt
 3. Set up environment variables by creating a .env file in the project root and populating it with the required values. For example: 
+
 MONGODB_URI=your-mongodb-uri
 DISCORD_BOT_TOKEN=your-discord-bot-token
 
@@ -43,11 +45,11 @@ Before running the correlator, it is required to set up a discord bot via the de
 4. Invite your bot to the server using its OAuth2 URL generated in the Discord Developer Portal.
 
 
-### Introduction
+## Correlator Services
+![Alt text](./pictures/correlator.png?raw=true "Transaction Flow of the Discord Correlator Services")
 
-The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels.
 
-### 1. Rule Engine (Flask Application)
+### 1. Rule Engine
 
 The rule engine is a Flask-based web service that enables clients to submit a regex rule and a callback URL. When the provided rule matches any current orders, the corresponding orders are returned and deleted from orders queue. They are stored in a result queue with their corresponding rule
 #### Endpoints:
@@ -78,7 +80,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
 3. If a matching rule exists and applies to the received message:
    - The corresponding orders are removed from the queue.
    - The matched orders, along with the rule, are added to the results queue.
-   - A notification is sent to the provided callback URL with the regex of the matching rule.
+   - A notification is sent to the waiting the task that its call was executed sucessfully.
 
 ### Dependencies:
 
@@ -86,11 +88,4 @@ This component listens for messages in a specific channel on Discord, named 'ord
 - **MongoClient**: To interact with MongoDB where the rules and orders are stored.
 - **Discord**: For integrating with the Discord API.
 - **Flask-CORS**: To handle Cross-Origin Resource Sharing for the Flask application.
-- 
-
-
-
-
-
-![Alt text](./pictures/correlator.png?raw=true "Title")
-
+  
