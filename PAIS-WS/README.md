@@ -22,11 +22,22 @@ The discord correlator system is composed of two primary components: a rule engi
 MONGODB_URI=your-mongodb-uri
 DISCORD_BOT_TOKEN=your-discord-bot-token
 
-Script 1: DiscordOrdersHandler
+
+## Files
+- discordOrdersHandler.py
 This script listens for incoming messages on a Discord channel, processes orders, and checks for matching rules. When a matching rule is found, it processes the order and sends a notification to a callback URL.
 
-Script 2: RuleEngine
+- ruleEngine.py
 This script sets up a Flask web service that allows users to submit rules for processing. It checks for matching rules and processes orders in the background. When a matching rule is found, it sends a notification to a pending task from another instance using its callback url.
+
+- services.py
+includes some util functions used by the ruleEngine and the discordOrdersHandler:
+- notify_callback: sends a put request to a specific url: used to inform a waiting task that its task has been executed.
+- find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match this regex.
+- rule_matches_current_order: check if a given regex does have any match from the current orders queue.
+
+
+
 
 Before running the correlator, it is required to set up a discord bot via the developers portal of discord, create a new server and invite your bot to it. 
 
@@ -46,7 +57,7 @@ Before running the correlator, it is required to set up a discord bot via the de
 
 
 ## Correlator Services
-![Alt text](./pictures/correlator.png?raw=true "Transaction Flow of the Discord Correlator Services")
+![Alt text](./pictures/correlator_updated.png?raw=true "Transaction Flow of the Discord Correlator Services")
 
 
 ### 1. Rule Engine
