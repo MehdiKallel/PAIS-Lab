@@ -92,11 +92,4 @@ This component listens for messages in a specific channel on Discord, named 'ord
    - The corresponding orders are removed from the queue.
    - The matched orders, along with the rule, are added to the results queue.
    - A notification is sent to the waiting the task that its call was executed sucessfully.
-
-### Dependencies:
-
-- **Flask**: For creating the web application.
-- **MongoClient**: To interact with MongoDB where the rules and orders are stored.
-- **Discord**: For integrating with the Discord API.
-- **Flask-CORS**: To handle Cross-Origin Resource Sharing for the Flask application.
   
