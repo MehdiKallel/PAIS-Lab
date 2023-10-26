@@ -93,12 +93,41 @@ This component listens for messages in a specific channel on Discord, named 'ord
 
 
 ### Usage example:
-1. Navigate to the following url: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
+1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
    
 ![Alt text](./screen1.png?raw=true)
 
-2. Click on the task included in the graph and set your rule in the argument field "regex". For example, you may be looking for orders containing the keyword "vodka".
-3. Start the instance (Since there are no orders queued, the task will stay on red since it is waiting for an answer from its service in the future). The rule sent will be stored in the rules queue. 
-5. Open your discord server and go to the #orders channel
-6. Type the order that you want to queue: for example: "Sex-on-the-beach small no orange slice". Now, since you previously started instance task is waiting for all orders containing the keyword "vodka", it should still be red and not take the order you just gave.
-7. Now type "vodka" in the #orders channel. This will make our task instance complete and the instance is stopped. The stored rule looking for all orders containing the keyword "vodka" is dequeued from the rules queue and applied.
+## Setting Up Your Rule
+
+1. **Navigate to the Graph**:
+    - Select the appropriate task.
+    - Inside the `regex` argument field, input your desired rule. 
+    > **Example**: If you're searching for orders with the keyword "vodka", enter `vodka`.
+
+## Start the Task Instance
+
+2. **Initiate the Task**:
+    - Launch the task instance.
+    - **Note**: Due to the absence of queued orders, the task indicator will appear in red. This signifies it's in standby mode, awaiting a response.
+
+## Queueing an Order in Discord
+
+3. **Access Discord**:
+    - Open your Discord server.
+    - Head over to the `#orders` channel.
+
+4. **Test the Rule**:
+    - To verify the rule, input an order, such as:
+    ```
+    Sex-on-the-beach small no orange slice
+    ```
+    Given that the task is on the lookout for the keyword "vodka", it will maintain its red status and will not process the order you've just provided.
+
+5. **Send a Vodka Order**:
+    - Now, place an order containing the word `vodka` in the `#orders` channel.
+
+## Task Completion
+
+6. **Recognize & Complete**:
+    - The system will recognize the "vodka" keyword in the order, completing the task instance and ceasing its function.
+    - Subsequently, the rule targeting the keyword "vodka" gets removed from the rules queue for execution.
