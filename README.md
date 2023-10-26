@@ -2,7 +2,7 @@
 
 ## Description
 
-The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs when specific conditions are met.
+The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs with its rule are stored in the rules queue.
 
 ## Prerequisites
 - Python 3.x
