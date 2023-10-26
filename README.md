@@ -30,9 +30,9 @@ This script sets up a Flask web service that allows users to submit rules for pr
 
 - services.py
 includes some util functions used by the ruleEngine and the discordOrdersHandler:
-- notify_callback: sends a put request to a specific url: used to inform a waiting task that its task has been executed.
-- find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match this regex.
-- rule_matches_current_order: check if a given regex does have any match from the current orders queue.
+  - notify_callback: sends a put request to a specific url: used to inform a waiting task that its task has been executed.
+  - find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match this regex.
+  - rule_matches_current_order: check if a given regex does have any match from the current orders queue.
 
 
 
@@ -61,6 +61,9 @@ Before running the correlator, it is required to set up a discord bot via the de
 ### 1. Rule Engine
 
 The rule engine is a Flask-based web service that enables clients to submit a regex rule and a callback URL. When the provided rule matches any current orders, the corresponding orders are returned and deleted from orders queue. They are stored in a result queue with their corresponding rule
+
+![Alt text](./pictures/screen2.png?raw=true "Example of a result queue element")
+
 #### Endpoints:
 
 - **POST /apply_rule**
@@ -95,7 +98,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
 ## Example:
 1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
    
-![Alt text](./screen1.png?raw=true)
+![Alt text](./pictures/screen1.png?raw=true)
 
 1. **Navigate to the Graph**:
     - Select the appropriate task.
