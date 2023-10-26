@@ -92,4 +92,9 @@ This component listens for messages in a specific channel on Discord, named 'ord
    - The corresponding orders are removed from the queue.
    - The matched orders, along with the rule, are added to the results queue.
    - A notification is sent to the waiting the task that its call was executed sucessfully.
-  
+
+
+### Usage example:
+1. Navigate to the following url: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
+   
+![Alt text](./pictures/screen1.png?raw=true)
