@@ -2,11 +2,9 @@
 
 ## Description
 
-
 The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs when specific conditions are met.
 
 ## Prerequisites
-
 - Python 3.x
 - MongoDB
 - Flask
@@ -97,4 +95,10 @@ This component listens for messages in a specific channel on Discord, named 'ord
 ### Usage example:
 1. Navigate to the following url: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
    
-![Alt text](./pictures/screen1.png?raw=true)
+![Alt text](./screen1.png?raw=true)
+
+2. Click on the task included in the graph and set your rule in the argument field "regex". For example, you may be looking for orders containing the keyword "vodka".
+3. Start the instance (Since there are no orders queued, the task will stay on red since it is waiting for an answer from its service in the future). The rule sent will be stored in the rules queue. 
+5. Open your discord server and go to the #orders channel
+6. Type the order that you want to queue: for example: "Sex-on-the-beach small no orange slice". Now, since you previously started instance task is waiting for all orders containing the keyword "vodka", it should still be red and not take the order you just gave.
+7. Now type "vodka" in the #orders channel. This will make our task instance complete and the instance is stopped. The stored rule looking for all orders containing the keyword "vodka" is dequeued from the rules queue and applied.
