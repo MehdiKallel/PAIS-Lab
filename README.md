@@ -20,6 +20,7 @@ The discord correlator system is composed of two primary components: a rule engi
 MONGODB_URI=your-mongodb-uri
 DISCORD_BOT_TOKEN=your-discord-bot-token
 
+4. Run both services: `python3 ruleEngine.py && python3 discordOrdersHandler.py`. If you want to check if your scripts are running, you can use: `ps aux | grep python3`. In case you want to stop one of the services, use `kill <PROCESS_ID>`  
 
 ## Files
 - discordOrdersHandler.py
@@ -121,7 +122,6 @@ This component listens for messages in a specific channel on Discord, named 'ord
 
 5. **Send a Vodka Order**:
     - Now, place an order containing the word `vodka` in the `#orders` channel.
-    - 
 6. **Recognize & Complete**:
     - The system will recognize the "vodka" keyword in the order, completing the task instance and ceasing its function.
     - Subsequently, the rule targeting the keyword "vodka" gets removed from the rules queue for execution.
