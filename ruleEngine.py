@@ -8,16 +8,16 @@ app = Flask(__name__)
 CORS(app)
 
 
-def process_rule_in_background(regex, callback_url):
+def process_rule_in_background(regex, callback_url, end):
     matching_old_rule = find_oldest_matching_rule()
     if matching_old_rule:
         if rule_matches_current_orders(matching_old_rule['regex']):
             rule_queue.delete_one({"_id": matching_old_rule['_id']})
-            rule_queue.insert_one({"regex": regex.pattern, "callback_url": callback_url})
+            rule_queue.insert_one({"regex": regex.pattern, "callback_url": callback_url, "end": end})
             notify_callback(callback_url, {"regex": matching_old_rule['regex']})
             return
 
-    if rule_matches_current_orders(regex):
+    if rule_matches_current_orders(regex, end):
         matched_orders = [order for order in queue_a.find() if 'content' in order and re.fullmatch(regex, order['content'])]
         for order in matched_orders:
             queue_a.delete_one({'_id': order['_id']})
@@ -35,6 +35,8 @@ def process_rule_in_background(regex, callback_url):
 @app.route('/apply_rule', methods=["POST"])
 def apply_rule():
     regex_str = request.form.get('regex')
+    end = request.form.get('end')
+
     callback_url = request.headers.get('CPEE-CALLBACK')
     response = Response()
 
@@ -43,10 +45,10 @@ def apply_rule():
     except re.error:
         return "Invalid regex", 400
 
-    response.headers['CPEE-CALLBACK'] = 'false' if rule_matches_current_orders(regex_str) else 'true' 
+    response.headers['CPEE-CALLBACK'] = 'false' if rule_matches_current_orders(regex_str, end) else 'true' 
     response.status_code = 200
 
-    thread = threading.Thread(target=process_rule_in_background, args=(regex, callback_url))
+    thread = threading.Thread(target=process_rule_in_background, args=(regex, callback_url, end))
     thread.start()
     return response
 

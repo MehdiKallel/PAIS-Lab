@@ -23,7 +23,8 @@ async def on_message(message):
         'content': message.content,
         'author_id': str(message.author.id),
         'author_name': str(message.author.name),
-        'author_tag': str(message.author.discriminator)
+        'author_tag': str(message.author.discriminator),
+        'timestamp': message.created_at.isoformat()
     })
     print(f"Added new order with ID: {inserted_document.inserted_id}")
 
@@ -44,5 +45,7 @@ async def on_message(message):
         notify_callback(matching_old_rule['callback_url'], {"regex": matching_old_rule['regex']})
 
 
+print(type(os.getenv('DISCORD_BOT_TOKEN')))
+print(os.getenv('DISCORD_BOT_TOKEN'))
 client.run(os.getenv('DISCORD_BOT_TOKEN'))
 
