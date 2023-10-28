@@ -1,11 +1,10 @@
-# Discord correlator
+# Discord orders correlator
 
 ## Description
 
 This system correlates Discord messages against specified rules. It has two components:
-
-    Rule Engine: A Flask application that allows users to input regex rules with an associated end date.
-    Discord Fetcher: Monitors specific Discord channels, processes orders, and matches them against existing rules based on the rule's regex pattern and end date.
+- Rule Engine: A Flask application that allows users to input regex rules with an associated end date.
+- Discord Fetcher: Monitors orders channel of the discord server, processes orders, and matches them against existing rules based on the rule's regex pattern and end date.
 
 If an incoming message doesn't match any rule or is past the rule's end date, it's stored. If a rule can't be applied immediately, it's queued for future use.
 
