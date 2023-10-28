@@ -76,7 +76,7 @@ Allows submission of a regex rule, an end date, and a callback URL. If a rule ma
   - **Responses**:
     - `200 OK`: Successfully processed the rule -> Regex syntax is correct.
     - `400 Bad Request`: Invalid regex provided.
-    - `CPEE-CALLBACK`: A response header indicating if there is an asynchronous call or not (`true` or `false`). It is set to true in case there is the rule has no matching orders and the task may complete in the future. It is set to false in case there is no need for an asynchronous call and the rule has matching orders.
+    - `CPEE-CALLBACK`: A response header indicating if there is an asynchronous call or not (`true` or `false`). It is set to true in case the incoming rule has no matching orders and the task may complete in the future. It is set to false in case there is no need for an asynchronous call and the rule has matching orders.
 
 #### Background Processing:
 
