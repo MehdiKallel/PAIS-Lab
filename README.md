@@ -24,7 +24,7 @@ If an incoming message doesn't match any rule or is past the rule's end date, it
 MONGODB_URI=your-mongodb-uri
 DISCORD_BOT_TOKEN=your-discord-bot-token
 
-4. Run both services: `python3 ruleEngine.py && python3 discordOrdersHandler.py`. If you want to check if your scripts are running, you can use: `ps aux | grep python3`. In case you want to stop one of the services, use `kill <PROCESS_ID>`  
+4. Run both services: `python3 ruleEngine.py & python3 discordOrdersHandler.py&` (Ideally separately). If you want to check if your scripts are running, you can use: `ps aux | grep python3`. In case you want to stop one of the services, use `kill <PROCESS_ID>`  
 
 ## Key Files
 - discordOrdersHandler.py
