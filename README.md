@@ -131,3 +131,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
     - Subsequently, the rule targeting the keyword "vodka" gets removed from the rules queue for execution.
 
 Note: Please make sure to adjust the "end" field based on your needs. In the previous example, you could set it to a date greater to your current date.
+
+
+## Visualizing
+For visualizing the queues state, you can use this tool: "". Please make sure to adjust its mongodb env variable.
