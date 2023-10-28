@@ -2,7 +2,12 @@
 
 ## Description
 
-The discord correlator system is composed of two primary components: a rule engine, implemented as a Flask application, and a Discord fetcher that listens for messages in specific Discord channels. The discord orders fetcher service will apply stored rules on the incoming messages and if there is no corresponding match then the order is stored. The apply rule service will directly perform rule matching on incoming regex rules and in the case the rule cant be applied, it is stored for future use. In this case the callback URLs with its rule are stored in the rules queue.
+This system correlates Discord messages against specified rules. It has two components:
+
+    Rule Engine: A Flask application that allows users to input regex rules with an associated end date.
+    Discord Fetcher: Monitors specific Discord channels, processes orders, and matches them against existing rules based on the rule's regex pattern and end date.
+
+If an incoming message doesn't match any rule or is past the rule's end date, it's stored. If a rule can't be applied immediately, it's queued for future use.
 
 ## Prerequisites
 - Python 3.x
@@ -22,21 +27,18 @@ DISCORD_BOT_TOKEN=your-discord-bot-token
 
 4. Run both services: `python3 ruleEngine.py && python3 discordOrdersHandler.py`. If you want to check if your scripts are running, you can use: `ps aux | grep python3`. In case you want to stop one of the services, use `kill <PROCESS_ID>`  
 
-## Files
+## Key Files
 - discordOrdersHandler.py
 This script listens for incoming messages on a Discord channel, processes orders, and checks for matching rules. When a matching rule is found, it processes the order and sends a notification to a callback URL.
 
 - ruleEngine.py
-This script sets up a Flask web service that allows users to submit rules for processing. It checks for matching rules and processes orders in the background. When a matching rule is found, it sends a notification to a pending task from another instance using its callback url.
+This script sets up a Flask web service that allows users to submit rules for processing. It checks if there are any orders from the orders queue that match the incoming rule. In this case, the orders are deleted from the orders queue and aggregated to the rule and stored in the result queue. In case there is no match, the rule is stored in the rules queue. 
 
 - services.py
 includes some util functions used by the ruleEngine and the discordOrdersHandler:
   - notify_callback: sends a put request to a specific url: used to inform a waiting task that its task has been executed.
   - find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match this regex.
   - rule_matches_current_order: check if a given regex does have any match from the current orders queue.
-
-
-
 
 Before running the correlator, it is required to set up a discord bot via the developers portal of discord, create a new server and invite your bot to it. 
 
@@ -54,14 +56,13 @@ Before running the correlator, it is required to set up a discord bot via the de
 3. Customize your server by adding channels, roles, and permissions as needed.
 4. Invite your bot to the server using its OAuth2 URL generated in the Discord Developer Portal.
 
-
 ## Correlator Services
-![Alt text](./pictures/correlator_updated.png?raw=true "Transaction Flow of the Discord Correlator Services")
+![Alt text](./pictures/correlator_updated.png?raw=true "Flow of the Discord Correlator Services ")
 
 
 ### 1. Rule Engine
 
-The rule engine is a Flask-based web service that enables clients to submit a regex rule and a callback URL. When the provided rule matches any current orders, the corresponding orders are returned and deleted from orders queue. They are stored in a result queue with their corresponding rule
+Allows submission of a regex rule, an end date, and a callback URL. If a rule matches any current orders before the given end date, the matched orders are removed from the orders queue and stored with the rule into the results queue.
 
 ![Alt text](./pictures/screen2.png?raw=true "Example of a result queue element")
 
@@ -70,12 +71,13 @@ The rule engine is a Flask-based web service that enables clients to submit a re
 - **POST /apply_rule**
   - **Parameters**:
     - `regex`: A regex pattern to be applied to the current orders.
+    - `end`: End date for orders.
   - **Headers**:
     - `CPEE-CALLBACK`: The callback URL to which notifications should be sent. This header is set to false in case we have an orders/rule match and to false if we have an asynchronous call and the rule needs to be stored in the rules queue. The rule may be applied in the future and the corresponding waiting task is informed using the CPEE Callback URL that the task was executed.
   - **Responses**:
     - `200 OK`: Successfully processed the rule -> Regex syntax is correct.
     - `400 Bad Request`: Invalid regex provided.
-    - `CPEE-CALLBACK`: A response header indicating if a rule matches the current orders (`true` or `false`).
+    - `CPEE-CALLBACK`: A response header indicating if there is an asynchronous call or not (`true` or `false`). It is set to true in case there is the rule has no matching orders and the task may complete in the future. It is set to false in case there is no need for an asynchronous call and the rule has matching orders.
 
 #### Background Processing:
 
@@ -88,13 +90,12 @@ When a rule is submitted via the `/apply_rule` endpoint, the application:
 
 This component listens for messages in a specific channel on Discord, named 'orders'. When a message is received in this channel:
 
-1. The message is logged and added to the queue with metadata such as author's ID, name, and tag.
+1. The message is logged and added to the queue with metadata such as author's ID, name, order timestamp and tag.
 2. The application then checks for any matching rule from the stored rules queue.
 3. If a matching rule exists and applies to the received message:
    - The corresponding orders are removed from the queue.
    - The matched orders, along with the rule, are added to the results queue.
-   - A notification is sent to the waiting the task that its call was executed sucessfully.
-
+   - A notification is sent to the waiting the task that its implementation has finished execution.
 
 ## Example:
 1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
@@ -103,8 +104,9 @@ This component listens for messages in a specific channel on Discord, named 'ord
 
 1. **Navigate to the Graph**:
     - Select the appropriate task.
-    - Inside the `regex` argument field, input your desired rule. 
-    > **Example**: If you're searching for orders with the keyword "vodka", enter `vodka`.
+    - Inside the `regex` argument field, input your desired rule. (example: "vodka")
+    - Inside the `end` argument field, input your desired end date.
+    > **Example**: If you're searching for orders with the keyword "vodka" that we made before that date: 2023-10-28T11:20, enter `vodka` and `2023-10-28T11:20` (SO 8601 format).
 
 2. **Initiate the Task**:
     - Launch the task instance.
@@ -125,3 +127,5 @@ This component listens for messages in a specific channel on Discord, named 'ord
 6. **Recognize & Complete**:
     - The system will recognize the "vodka" keyword in the order, completing the task instance and ceasing its function.
     - Subsequently, the rule targeting the keyword "vodka" gets removed from the rules queue for execution.
+
+Note: Please make sure to adjust the "end" field based on your needs. In the previous example, you could set it to a date greater to your current date.
