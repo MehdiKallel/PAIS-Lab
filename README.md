@@ -100,7 +100,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
 ## Example:
 1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
    
-![Alt text](./pictures/screen1.png?raw=true)
+![Alt text](./pictures/screen3.png?raw=true)
 
 1. **Navigate to the Graph**:
     - Select the appropriate task.
@@ -111,20 +111,23 @@ This component listens for messages in a specific channel on Discord, named 'ord
 2. **Initiate the Task**:
     - Launch the task instance.
     - **Note**: Due to the absence of queued orders, the task indicator will appear in red. This signifies it's in standby mode, awaiting a response.
-3. **Access Discord**:
+
+![Alt text](./pictures/screen4.png?raw=true)
+
+4. **Access Discord**:
     - Open your Discord server.
     - Head over to the `#orders` channel.
 
-4. **Test the Rule**:
+5. **Test the Rule**:
     - To verify the rule, input an order, such as:
     ```
     Sex-on-the-beach small no orange slice
     ```
     Given that the task is on the lookout for the keyword "vodka", it will maintain its red status and will not process the order you've just provided.
 
-5. **Send a Vodka Order**:
+6. **Send a Vodka Order**:
     - Now, place an order containing the word `vodka` in the `#orders` channel.
-6. **Recognize & Complete**:
+7. **Recognize & Complete**:
     - The system will recognize the "vodka" keyword in the order, completing the task instance and ceasing its function.
     - Subsequently, the rule targeting the keyword "vodka" gets removed from the rules queue for execution.
 
