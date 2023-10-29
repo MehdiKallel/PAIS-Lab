@@ -2,7 +2,7 @@
 
 ## Description
 
-This system correlates Discord messages against specified rules. It has two components:
+This system correlates Discord messages against specified rules. The implementation is supposed to work with the [CPEE](https://cpee.org/) It has two components:
 - Rule Engine: A Flask application that allows users to input regex rules with an associated end date.
 - Discord Fetcher: Monitors orders channel of the discord server, processes orders, and matches them against existing rules based on the rule's regex pattern and end date.
 
@@ -36,7 +36,7 @@ This script sets up a Flask web service that allows users to submit rules for pr
 - services.py
 includes some util functions used by the ruleEngine and the discordOrdersHandler:
   - notify_callback: sends a put request to a specific url: used to inform a waiting task that its task has been executed.
-  - find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match this regex.
+  - find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match a regex.
   - rule_matches_current_order: check if a given regex does have any match from the current orders queue.
 
 Before running the correlator, it is required to set up a discord bot via the developers portal of discord, create a new server and invite your bot to it.
