@@ -32,7 +32,7 @@ async def on_message(message):
     if not matching_old_rule:
         return
 
-    if rule_matches_current_orders(matching_old_rule['regex']):
+    if rule_matches_current_orders(matching_old_rule['regex'], end):
         matched_orders = [order for order in queue_a.find() if 'content' in order and re.fullmatch(matching_old_rule['regex'], order['content'])]
         for order in matched_orders:
             queue_a.delete_one({'_id': order['_id']})
