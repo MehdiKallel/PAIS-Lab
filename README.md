@@ -15,23 +15,23 @@ If an incoming message doesn't match any rule or is past the rule's end date, it
 - dotenv
 - requests
 
-## Usage	
+## Usage        
  Clone the repository:
 1. git clone https://github.com/MehdiKallel/PAIS-Lab.git
 2. pip install -r requirements.txt
-3. Set up environment variables by creating a .env file in the project root and populating it with the required values. For example: 
+3. Set up environment variables by creating a .env file in the project root and populating it with the required values. For example:
 
 MONGODB_URI=your-mongodb-uri
 DISCORD_BOT_TOKEN=your-discord-bot-token
 
-4. Run both services: `python3 ruleEngine.py & python3 discordOrdersHandler.py&` (Ideally separately). If you want to check if your scripts are running, you can use: `ps aux | grep python3`. In case you want to stop one of the services, use `kill <PROCESS_ID>`  
+4. Run both services: `python3 ruleEngine.py & python3 discordOrdersHandler.py&` (Ideally separately). If you want to check if your scripts are running, you can use: `ps aux | grep python3`. In case you want to stop one of the services, use `kill <PROCESS_ID>`
 
 ## Key Files
 - discordOrdersHandler.py
 This script listens for incoming messages on a Discord channel, processes orders, and checks for matching rules. When a matching rule is found, it processes the order and sends a notification to a callback URL.
 
 - ruleEngine.py
-This script sets up a Flask web service that allows users to submit rules for processing. It checks if there are any orders from the orders queue that match the incoming rule. In this case, the orders are deleted from the orders queue and aggregated to the rule and stored in the result queue. In case there is no match, the rule is stored in the rules queue. 
+This script sets up a Flask web service that allows users to submit rules for processing. It checks if there are any orders from the orders queue that match the incoming rule. In this case, the orders are deleted from the orders queue and aggregated to the rule and stored in the result queue. In case there is no match, the rule is stored in the rules queue.
 
 - services.py
 includes some util functions used by the ruleEngine and the discordOrdersHandler:
@@ -39,7 +39,7 @@ includes some util functions used by the ruleEngine and the discordOrdersHandler
   - find_oldest_matching_rule: for a given regex rule, iterate over the stored rules and look for the oldest rule that match this regex.
   - rule_matches_current_order: check if a given regex does have any match from the current orders queue.
 
-Before running the correlator, it is required to set up a discord bot via the developers portal of discord, create a new server and invite your bot to it. 
+Before running the correlator, it is required to set up a discord bot via the developers portal of discord, create a new server and invite your bot to it.
 
 ## Setting Up a Discord Bot
 1. Log in to your Discord account.
@@ -76,7 +76,7 @@ Allows submission of a regex rule, an end date, and a callback URL. If a rule ma
   - **Responses**:
     - `200 OK`: Successfully processed the rule -> Regex syntax is correct.
     - `400 Bad Request`: Invalid regex provided.
-    - `CPEE-CALLBACK`: A response header indicating if there is an asynchronous call or not (`true` or `false`). It is set to true in case the incoming rule has no matching orders and the task may complete in the future. It is set to false in case there is no need for an asynchronous call and the rule has matching orders.
+    - `CPEE-CALLBACK`: A response header indicating if there is an asynchronous call or not (`true` or `false`). It is set to true in case there is the rule has no matching orders and the task may complete in the future. It is set to false in case there is no need for an asynchronous call and the rule has matching orders.
 
 #### Background Processing:
 
@@ -98,7 +98,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
 
 ## Example:
 1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
-   
+
 ![Alt text](./pictures/screen3.png?raw=true)
 
 1. **Navigate to the Graph**:
@@ -133,5 +133,8 @@ This component listens for messages in a specific channel on Discord, named 'ord
 Note: Please make sure to adjust the "end" field based on your needs. In the previous example, you could set it to a date greater to your current date.
 
 
-## Visualizing (Bonus)
-For visualizing the queues states, you can use this tool: https://github.com/MehdiKallel/PAIS-Lab/tree/master/dashboard. Please make sure to adjust its mongodb env variable.
+## Visualizing
+For visualizing the queues state, you can use this tool: "". Please make sure to adjust its mongodb env variable.
+                                                                                                                                                                                            132,0-1       Bot
+
+                                                                                                                                      
