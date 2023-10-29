@@ -134,7 +134,4 @@ Note: Please make sure to adjust the "end" field based on your needs. In the pre
 
 
 ## Visualizing
-For visualizing the queues state, you can use this tool: "". Please make sure to adjust its mongodb env variable.
-                                                                                                                                                                                            132,0-1       Bot
-
-                                                                                                                                      
+For visualizing the queues state, you can use this tool: https://github.com/MehdiKallel/PAIS-Lab/tree/master/dashboard. Please make sure to adjust its mongodb env variable.                                       
