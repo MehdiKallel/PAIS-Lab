@@ -99,7 +99,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
 ## Example:
 1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
 
-![Alt text](./pictures/screen3.png?raw=true)
+![Alt text](./pictures/screen5.png?raw=true)
 
 1. **Navigate to the Graph**:
     - Select the appropriate task.
