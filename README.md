@@ -2,7 +2,7 @@
 
 ## Description
 
-This system correlates Discord messages against specified rules. The implementation is supposed to work with the [CPEE](https://cpee.org/) It has two components:
+This system correlates Discord messages against specified rules. The implementation is supposed to work with the [CPEE](https://cpee.org).It has two components:
 - Rule Engine: A Flask application that allows users to input regex rules with an associated end date.
 - Discord Fetcher: Monitors orders channel of the discord server, processes orders, and matches them against existing rules based on the rule's regex pattern and end date.
 
