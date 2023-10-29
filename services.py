@@ -28,20 +28,20 @@ def notify_callback(url, data):
         print(f"Failed to notify callback. Error: {e}")
         return None
 
-
 def find_oldest_matching_rule():
     all_rules = list(rule_queue.find().sort("_id", 1))
     for stored_rule in all_rules:
         stored_regex = re.compile(stored_rule['regex'])
-        rule_end_dt = datetime.datetime.fromisoformat(stored_rule.get('end'))
+        rule_end_dt = datetime.datetime.fromisoformat(stored_rule.get('end')).replace(tzinfo=pytz.UTC)
         for order in queue_a.find():
-            order_timestamp = datetime.datetime.fromisoformat(order.get('timestamp', ''))
+            order_timestamp_str = order.get('timestamp', '')
+            if not order_timestamp_str:
+                continue
+            order_timestamp = datetime.datetime.fromisoformat(order_timestamp_str).replace(tzinfo=pytz.UTC)
             if 'content' in order and isinstance(order['content'], str):
                 if re.fullmatch(stored_regex, order['content']) and order_timestamp <= rule_end_dt:
                     return stored_rule
     return None
-
-
 
 
 def rule_matches_current_orders(regex, end):
