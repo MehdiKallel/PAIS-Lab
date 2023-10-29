@@ -87,7 +87,7 @@ When a rule is submitted via the `/apply_rule` endpoint, the application:
 
 ### 2. Discord Fetcher
 
-This component listens for messages in a specific channel on Discord, named 'orders'. When a message is received in this channel:
+This component (represented as DiscordOrdersHandler on the diagramm) listens for messages in a specific channel on Discord, named 'orders'. When a message is received in this channel:
 
 1. The message is logged and added to the queue with metadata such as author's ID, name, order timestamp and tag.
 2. The application then checks for any matching rule from the stored rules queue.
@@ -95,6 +95,7 @@ This component listens for messages in a specific channel on Discord, named 'ord
    - The corresponding orders are removed from the queue.
    - The matched orders, along with the rule, are added to the results queue.
    - A notification is sent to the waiting the task that its implementation has finished execution.
+4. If there are no matches, the order is queued in the orders queue.
 
 ## Example:
 1. **Navigate to the following url**: https://cpee.org/flow/?monitor=https://cpee.org/flow/engine/22643/
