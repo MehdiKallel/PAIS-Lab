@@ -134,5 +134,5 @@ This component (represented as DiscordOrdersHandler on the diagramm) listens for
 Note: Please make sure to adjust the "end" field based on your needs. In the previous example, you could set it to a date greater to your current date.
 
 
-## Visualizing
+## Visualizing (Bonus)
 For visualizing the queues state, you can use this tool: https://github.com/MehdiKallel/PAIS-Lab/tree/master/dashboard. Please make sure to adjust its mongodb env variable.                                       
