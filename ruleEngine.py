@@ -9,14 +9,6 @@ CORS(app)
 
 
 def process_rule_in_background(regex, callback_url, end):
-    matching_old_rule = find_oldest_matching_rule()
-    if matching_old_rule:
-        if rule_matches_current_orders(matching_old_rule['regex']):
-            rule_queue.delete_one({"_id": matching_old_rule['_id']})
-            rule_queue.insert_one({"regex": regex.pattern, "callback_url": callback_url, "end": end})
-            notify_callback(callback_url, {"regex": matching_old_rule['regex']})
-            return
-
     if rule_matches_current_orders(regex, end):
         matched_orders = [order for order in queue_a.find() if 'content' in order and re.fullmatch(regex, order['content'])]
         for order in matched_orders:
@@ -28,7 +20,7 @@ def process_rule_in_background(regex, callback_url, end):
         })
         return 200
     else:
-        rule_queue.insert_one({"regex": regex.pattern, "callback_url": callback_url})
+        rule_queue.insert_one({"regex": regex.pattern, "callback_url": callback_url, "end": end})
         return 200
 
 
